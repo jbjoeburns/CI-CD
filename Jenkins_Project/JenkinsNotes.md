@@ -68,15 +68,12 @@ Follow the setup for VPCs on my VPC guide **up to the creation of instances**: h
 ```
 sudo apt-get update -y
 sudo apt-get upgrade -y
-sudo apt-get install nginx -y
 ```
-3. Connect via your public IP and test if nginx is working, if it is we can move onto setting up Jenkins
-
 ![Alt text](nginxworking.png)
 
-4. In order for Jenkins to run, we need to install Java as that is the language jenkins was built in: `sudo apt install default-jre`
+5. In order for Jenkins to run, we need to install Java as that is the language jenkins was built in: `sudo apt install default-jre`
 
-5. Then we need to obtain the key for Jenkins and install it
+6. Then we need to obtain the key for Jenkins and install it
 ```
 wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
 
@@ -87,17 +84,11 @@ sudo apt update
 sudo apt install jenkins
 ```
 
-6. When we connect to our instance on port 8080, we will be asked for a password which can be found using `journalctl -u jenkins.service` and it is towards the end of the document (note to self: make a command later that takes tail of this for ease of use)
+7. When we connect to our instance on port 8080, we will be asked for a password which can be found using `journalctl -u jenkins.service` and it is towards the end of the document (note to self: make a command later that takes tail of this for ease of use)
 
 ![Alt text](jenkpasseg.png)
 
-7. We can then install suggested plugins
-
-8. Next, it will ask you to create an admin user, choose an appropriate name for this and provide your email (personal email preffered)
-
-![Alt text](admineg.png)
-
-9. Finally, we need to run the following commands to allow access to our github:
+8. Finally, we need to run the following commands to allow access to our github:
 
 ```
 # Switches user to Jenkins
@@ -107,9 +98,15 @@ sudo su - jenkins
 ssh-keyscan github.com >> ~/.ssh/known_hosts
 ```
 
-10. And we need to install the nodejs plugin on jenkins
+9. We can then go to the public IP for our Jenkins instance in a browser
 
-11. Once we have done that, we can set up the jobs
+10. Next, it will ask you to create an admin user, choose an appropriate name for this and provide your email (personal email preffered)
+
+![Alt text](admineg.png)
+
+11. And we need to install the nodejs plugin on jenkins
+
+12. Once we have done that, we can set up the jobs
 
 ## Building job that tests app in jenkins
 
