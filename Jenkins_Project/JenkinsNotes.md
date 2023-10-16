@@ -256,7 +256,7 @@ manage jenkins -> system -> git plugin -> add email and username here or Jenkins
 
 ```
 #!/bin/bash
-# Allows Jenkins to SSH into the instance.
+# Allows Jenkins to SSH into the instance WE ONLY NEED THIS IF RUNNING APP ON OTHER INSTANCE.
 # -o allows you to change options for the ssh command, and the option StrictHostKeyChecking is disabled as if enabled it will reject any SSH connections that arent from the known host list, including Jenkins
 ssh -o "StrictHostKeyChecking=no" ubuntu@<Public IPv4 DNS> <<EOF
 
@@ -282,6 +282,17 @@ At this point, you should have set something like this up.
 And you can test if nginx is working by connecting to your public IP.
 
 ![Alt text](nginxworking.png)
+
+### Important information if you're running nginx on the master node
+
+There are some additional configurations you need to do to get nginx running properly.
+
+Use `sudo nano /etc/sudoers` and change jenkins to superuser by adding `jenkins ALL=(ALL) NOPASSWD: ALL` to bottom of the file.
+
+Additionally, change the default port to 81, as Java uses 80. Recommended to add this to the script at the end of the Jenkins job to do this:
+`sudo sed -i "s/80/81/g" /etc/nginx/sites-available/default`
+
+Finally, you need to remove this file: `/var/www/html/index.html`. This can either be done manually, or by adding `sudo rm /var/www/html/index.html` to your build script. This is the splash page for Apache2 Ubuntu running Java and will override your nginx page if not removed.
 
 ### We can then further automate this process, so that this new job becomes part of our previous pipeline.
 
