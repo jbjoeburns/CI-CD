@@ -57,7 +57,7 @@ Follow the setup for VPCs on my VPC guide **up to the creation of instances**: h
 
 ![Alt text](networksettingsvpc.png)
 
-6. Then create security group with ports 22, 80 and 8080 accessable by everyone
+6. Then create security group with ports 22, 80, 3000 and 8080 accessable by everyone
 
 ![Alt text](networksettingssg.png)
 
@@ -69,28 +69,41 @@ Follow the setup for VPCs on my VPC guide **up to the creation of instances**: h
 sudo apt-get update -y
 sudo apt-get upgrade -y
 ```
-![Alt text](nginxworking.png)
 
-5. In order for Jenkins to run, we need to install Java as that is the language jenkins was built in: `sudo apt install default-jre`
+3. In order for Jenkins to run, we need to install Java as that is the language jenkins was built in: `sudo apt install default-jre`
 
-6. Then we need to obtain the key for Jenkins and install it
+4. Then we need to obtain the key for Jenkins and install it
 ```
+# gets key
 wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
 
 sudo sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
 
+# signs key
+curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo tee \
+  /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+
+echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null
+
+# installs jenkins
 sudo apt update
 
 sudo apt install jenkins
 ```
 
-7. When we connect to our instance on port 8080, we will be asked for a password which can be found using `journalctl -u jenkins.service` and it is towards the end of the document (note to self: make a command later that takes tail of this for ease of use)
+5. When we connect to our instance on port 8080, we will be asked for a password which can be found using `journalctl -u jenkins.service` and it is towards the end of the document (note to self: make a command later that takes tail of this for ease of use)
+- **EDIT**: Use `sudo cat /var/lib/jenkins/secrets/initialAdminPassword` to only get password string
 
 ![Alt text](jenkpasseg.png)
 
-8. Finally, we need to run the following commands to allow access to our github:
+6. Finally, we need to run the following commands to allow access to our github:
 
 ```
+# installs git
+sudo apt-get install git-all -y
+
 # Switches user to Jenkins
 sudo su - jenkins
 
@@ -98,15 +111,17 @@ sudo su - jenkins
 ssh-keyscan github.com >> ~/.ssh/known_hosts
 ```
 
-9. We can then go to the public IP for our Jenkins instance in a browser
+7. We can then go to the public IP for our Jenkins instance in a browser
 
-10. Next, it will ask you to create an admin user, choose an appropriate name for this and provide your email (personal email preffered)
+8. Next, it will ask you to create an admin user, choose an appropriate name for this and provide your email (personal email preffered)
 
 ![Alt text](admineg.png)
 
-11. And we need to install the nodejs plugin on jenkins
+9. And we need to install the nodejs plugin on jenkins
 
-12. Once we have done that, we can set up the jobs
+10. Go to `<url>/configureTools` and add nodeJS install with default settings
+
+11. Once we have done that, we can set up the jobs
 
 ## Building job that tests app in jenkins
 
@@ -142,6 +157,7 @@ Then move to **Jenkins**
 ![Alt text](12-1.png)
 
 12. Then add the private key for the key you linked to your GitHub earlier
+- Remember, if this key is password protected, provide the password
 
 ![Alt text](13-1.png)
 
@@ -249,6 +265,10 @@ EOF
 At this point, you should have set something like this up.
 
 ![Alt text](jenkinsjob3setup.png)
+
+And you can test if nginx is working by connecting to your public IP.
+
+![Alt text](nginxworking.png)
 
 ### We can then further automate this process, so that this new job becomes part of our previous pipeline.
 
