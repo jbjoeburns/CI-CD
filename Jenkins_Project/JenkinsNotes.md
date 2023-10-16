@@ -177,13 +177,15 @@ You can view results of test in the logs!
 
 ## Running tests when app repo is updated, testing dev then merging dev to main if successful
 
-Make a new job and set it up exactly the same way as the previous job!
 
-However, make the following changes.
 
-1. Go to config on **Jenkins** and tick github trigger in build triggers
+1. Go to config on your **Jenkins** job and tick github trigger in build triggers
 
 ![14.png](14.png)
+
+**Make a new job and set it up exactly the same way as the previous job!**
+
+However, make the following changes.
 
 2. You also want to add **merge before build** as an additional behaviour, then specify this should merge with **main**.
 
