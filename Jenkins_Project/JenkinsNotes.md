@@ -202,10 +202,17 @@ However, make the following changes.
 
 ![Alt text](20.png)
 
+**IMPORTANT TO NOTE**: If you are using your own Jenkins, you will need to go into 
+
+manage jenkins -> system -> git plugin -> add email and username here or Jenkins cannot do merge requests
+
+![Alt text](gitlogin.png)
+
 5. Then go to settings in **github repo** and go to webhooks in the dropdown
 - Paste the payload URL, which is the URL of Jenkins 
 - Should be in this format `http://address:port/github-webhook/`
 - Change content type to application/json
+
 
 6. Then return to the testing (first) job you made and change post build to build other projects and select the merge (second) job you made.
 
