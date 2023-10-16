@@ -220,6 +220,10 @@ manage jenkins -> system -> git plugin -> add email and username here or Jenkins
 
 ## Setting up job that connects to AWS instance
 
+**IMPORTANT TO NOTE:** 
+- If you are running the app on the master node you can skip steps 1 to 3. 
+- If you are running it on an agent node, do all steps but instead make the new instance as part of a VPC in the network settings (network settings -> edit -> select VPC and subnet).
+
 ### Creating the AWS instance
 
 1. First, we need to create a new AWS instance for Jenkins to use. For this we will create an instance with the following AMI using t2 micro and our usual key-pair login: `ami-0136ddddd07f0584f`.
@@ -233,7 +237,7 @@ manage jenkins -> system -> git plugin -> add email and username here or Jenkins
 
 ![Alt text](26.png)
 
-3. We can then deploy this app
+3. We can then start this instance
 
 ### Creating Jenkins job to test we can connect and run nginx
 
