@@ -57,7 +57,7 @@ Follow the setup for VPCs on my VPC guide **up to the creation of instances**: h
 
 ![Alt text](networksettingsvpc.png)
 
-6. Then create security group with ports 22, 80, 3000 and 8080 accessable by everyone
+6. Then create security group with ports 22, 80, 81, 3000 and 8080 accessable by everyone
 
 ![Alt text](networksettingssg.png)
 
@@ -117,9 +117,9 @@ ssh-keyscan github.com >> ~/.ssh/known_hosts
 
 ![Alt text](admineg.png)
 
-9. And we need to install the nodejs plugin on jenkins
+9. Then we select recommended plugins, and then go to the plugins page (configure jenkins -> plugins) then search for and install the NodeJS and AWS plugins
 
-10. Go to `<url>/configureTools` and add nodeJS install with default settings
+10. Then to set up a node environment we go to `<url>/configureTools` and add nodeJS install with default settings
 
 11. Once we have done that, we can set up the jobs
 
