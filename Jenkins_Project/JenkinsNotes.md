@@ -4,13 +4,7 @@
 
 The aim of CI-CD is to fully automate app deployment from scratch to help deliver software faster, speeding up updates and making more money.
 
-The basic overview of the pipeline is...
-
-- Local code -> github -> jenkins -> master node -> tests code on agent node -> pushed to deployment if test successful
-
-Error logs are returned instead of deployment if app doesn't function as expected.
-
-This pipeline consists of two parts...
+A CI/CD pipeline consists of two parts...
 
 Continious intergration:
 
@@ -30,13 +24,33 @@ But **remember**, even though continious deployment has greater automation, cont
 
 # Webhooks
 
-Webhooks are used for automation.
+Webhooks are a HTTPs callback function that allows for communication between two different APIs.
 
-It always listens to changes in your github.
+This communication is lightweight, and triggers based on events.
 
-When changes occur, this repo will be cloned by jenkins and pipeline starts.
+In our case, our webhook will trigger when a push is made to the dev branch on our repo, and this will start the building of our Jenkins job.
+
+# Creating a CI/CD pipeline
+
+We are aiming for a pipeline such as this:
+
+![](jenkdiagram.png)
+
+Where a push to the dev repo containing our app triggers the webhook to build a job that clones dev and tests the app, then if this succeeds this will trigger a job that merges dev with main as we know the app on dev is functional. Then, on completion this triggers a third job that clones the app now on main and deploys it on an AWS instance.
+
+There are multiple steps to building our own CI/CD pipeline, as pictured below.
+
+![](jenksteps.png)
+
+1. First we make the instance our Jenkins will run on
+2. Then install Java (Jenkins depends on it) and Jenkins itself
+3. Next install any required plugins we need to make our pipeline (this will include NodeJS to launch/test our app, AWS to connect to an AWS instance and GitHub publisher to do merge requests but this should be installed by default) 
+4. Then we set up deploy keys and a webhook on GitHub so Jenkins can connect to our repo and pushes to dev will trigger our first job
+5. Finally we can make the jobs and our pipeline is complete
 
 # Setting up our own Jenkins
+
+Before we do anything else, we need Jenkins running on our own VPC to be able to even start making jobs.
 
 To set up our own jenkins, we essentially want a VPC with one subnet containing the Jenkins itself, and others could be used for databases or agent nodes depending on the scope of the project.
 
