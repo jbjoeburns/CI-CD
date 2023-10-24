@@ -1,4 +1,4 @@
-What is CI-CD
+## What is CI-CD
 
 Stands for Continuous Integration and Continuous Delivery/Deployment.
 
@@ -21,13 +21,13 @@ Continuous DeploymentDelivery is the idea that all changes that go into producti
 
 - Failed tests prevent deployment however.
 
-Why use CI-CD
+## Why use CI-CD
 
 - Increases speed of software release
     - Results in greater customer satisfaction as product delivered faster
 - Easier to isolate bugs as the small changes iterative approach allows you to narrow down in which version change the bug first appeared, and then isolate the change causing the issue
 
-What is jenkins
+## What is jenkins
 
 An open source automation server used to handle CI-CD processes.
 Stages of jenkins
@@ -36,14 +36,14 @@ Stages of jenkins
 - Build pipeline
 - Link jobs
 
-What are the jenkins alternatives
+## What are the jenkins alternatives
 
 - Circleci
 - TeamCity
 - Bamboo
 - Gitlab
 
-Why use jenkins
+## Why use jenkins
 
 - Open source
 - Many packages
